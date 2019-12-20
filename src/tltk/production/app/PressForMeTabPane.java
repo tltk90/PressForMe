@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.BiConsumer;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
@@ -26,6 +29,25 @@ import javax.swing.event.DocumentListener;
 public class PressForMeTabPane extends JTabbedPane implements Serializable {
 
     private final DocumentListener dl;
+
+    public PressForMeTabPane() {
+        this(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+    }
 
     public PressForMeTabPane(DocumentListener documentlistener) {
         super();
@@ -73,6 +95,10 @@ public class PressForMeTabPane extends JTabbedPane implements Serializable {
         return comps;
     }
 
+    public int tabsCount() {
+        return getTabCount();
+    }
+
     private void addTabToPane(String title, int index) {
         JScrollPane scroll = createTabArea();
         JPanel panel = createTabCompoment(title);
@@ -80,14 +106,14 @@ public class PressForMeTabPane extends JTabbedPane implements Serializable {
         setTabComponentAt(index, panel);
         setSelectedIndex(index);
         getCurrentTextArea().setEnabled(true);
-        
     }
 
     private void addTabToPane(String title, int index, String text) {
         addTabToPane(title, index);
-        try{
+        try {
             getCurrentTextArea().setText(text);
-        }catch(NullPointerException e){}
+        } catch (NullPointerException e) {
+        }
     }
 
     private void initilizeTabPane() {
@@ -114,7 +140,6 @@ public class PressForMeTabPane extends JTabbedPane implements Serializable {
 
         });
     }
-
 
     private JScrollPane createTabArea() {
         JTextArea t = new JTextArea();
@@ -165,7 +190,6 @@ public class PressForMeTabPane extends JTabbedPane implements Serializable {
                 removeTabAt(index);
             }
         }
-
     }
 
 }
