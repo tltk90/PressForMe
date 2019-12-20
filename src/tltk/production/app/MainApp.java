@@ -4,18 +4,29 @@
 package tltk.production.app;
 
 import java.awt.AWTException;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Component;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Robot;
 import java.awt.TextField;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -25,22 +36,25 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
@@ -59,6 +73,7 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
     public MainApp() {
         initComponents();
         text2key = new HashMap<>();
+        text2point = new HashMap<>();
         MainPanel.add(set, "set");
         MainPanel.add(ready, "ready");
         GO = new AtomicBoolean(true);
@@ -87,6 +102,16 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
             }
 
         });
+
+        updateState();
+    }
+
+    public void minimize() {
+        setVisible(false);
+    }
+
+    public void maximize() {
+        setVisible(true);
     }
 
     /**
@@ -119,6 +144,9 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        MousePanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         MainPanel = new javax.swing.JPanel();
 
         set.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -155,6 +183,7 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
         set.add(jButton1, gridBagConstraints);
 
         addBtn.setText("הוסף");
+        addBtn.setEnabled(false);
         addBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addBtnActionPerformed(evt);
@@ -191,6 +220,7 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
 
         times.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         times.setText("1");
+        times.setEnabled(false);
         times.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 timesKeyTyped(evt);
@@ -222,6 +252,7 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
         set.add(multiBtn, gridBagConstraints);
 
         resetBtn.setText("אפס");
+        resetBtn.setEnabled(false);
         resetBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetBtnActionPerformed(evt);
@@ -300,7 +331,7 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
         );
 
         itemList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "לחצן", "המתנה", "Tab" };
+            String[] strings = { "לחצן", "עכבר", "המתנה", "Tab" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -315,6 +346,7 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
             new Object [][] {
                 {"פעולה","מקש"},
                 {"הוספת לחיצה","K"},
+                {"הוספת עכבר","S"},
                 { "הוספת המתנה","P"},
                 { "הוספת  Tab","T"},
                 {"בטל פעולה אחרונה","U"},
@@ -356,6 +388,22 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
                 .addContainerGap())
         );
 
+        MousePanel.setBackground(new Color(0f,0f,0f,0.1f));
+        MousePanel.setLayout(new java.awt.BorderLayout(5, 5));
+
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("הקש על איזור מסוים עם העכבר");
+        jLabel3.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        MousePanel.add(jLabel3, java.awt.BorderLayout.PAGE_START);
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("או Esc לביטול");
+        jLabel4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        MousePanel.add(jLabel4, java.awt.BorderLayout.CENTER);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Press for me");
         setIconImage(createImage("icon.png", "icon")
@@ -392,6 +440,7 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
         MainPanel.getInputMap().put(KeyStroke.getKeyStroke("U"), "undo");
         MainPanel.getInputMap().put(KeyStroke.getKeyStroke("T"), "tab");
         MainPanel.getInputMap().put(KeyStroke.getKeyStroke("M"), "multi");
+        MainPanel.getInputMap().put(KeyStroke.getKeyStroke("S"), "mouse");
         MainPanel.getActionMap().put("pause", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -432,19 +481,30 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
                 }
             }
         });
+        MainPanel.getActionMap().put("mouse", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showMousePress();
+            }
+        });
     }
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-        JOptionPane.showOptionDialog(this, itemsScrollPane, "בחר לחצן או המתנה", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        int choice = JOptionPane.showOptionDialog(this, itemsScrollPane, "בחר לחצן או המתנה", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+        if(choice != 0) return;
         switch (itemList.getSelectedIndex()) {
             case 0: {
                 showKeyPress();
                 break;
             }
             case 1: {
-                addPause();
+                showMousePress();
                 break;
             }
             case 2: {
+                addPause();
+                break;
+            }
+            case 3: {
                 addTab();
                 break;
             }
@@ -478,6 +538,17 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
             format = "\n%s\n";
         }
         keysArea.append(String.format(format, WAIT));
+    }
+
+    private void addMosue(Point p) {
+        final JTextArea keysArea = tabPane.getCurrentTextArea();
+        String format;
+        if (keysArea.getText().length() == 0 || keysArea.getText().endsWith("\n")) {
+            format = "%s\n";
+        } else {
+            format = "\n%s\n";
+        }
+        keysArea.append(String.format(format, getPointString(p)));
     }
 
     private void showKeyPress() {
@@ -534,6 +605,47 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
         f.setLocationRelativeTo(this);
         f.setVisible(true);
     }
+
+    private void showMousePress() {
+        minimize();
+        final JFrame f = new JFrame();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        f.setUndecorated(true);
+        f.setBackground(new Color(0, 0, 0, 0.1f));
+        f.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                e.consume();
+                maximize();
+                Point p = e.getLocationOnScreen();
+                text2point.put(getPointString(p), p);
+                addMosue(p);
+                f.setVisible(false);
+                f.dispose();
+                maximize();
+
+            }
+
+        });
+        f.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == 27){
+                    f.setVisible(false);
+                    f.dispose();
+                    maximize();
+                }
+            }
+        });
+        f.add(MousePanel);
+        f.setSize(screenSize.getSize());
+        f.setVisible(true);
+    }
+
+    private String getPointString(Point p) {
+        return "(" + p.x + "," + p.y + ")";
+    }
     private void runBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runBtnActionPerformed
         String keys = tabPane.getCurrentTextArea().getText();
         if (times.getText().length() == 0) {
@@ -562,29 +674,27 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
                 for (int i = r; i > 0 && GO.get(); i--) {
                     repaet.setText(String.valueOf(i));
                     for (int j = 0; j < lines.length; j++) {
-                        String line = lines[j];
-                        //System.out.println(line);
-                        if (line.startsWith("המתנה")) {
+                        try {
+                            String line = lines[j];
+                            //System.out.println(line);
+                            if (line.startsWith("המתנה")) {
 
-                            currentState.setText("ממתין");
-                            try {
+                                currentState.setText("ממתין");
                                 Thread.sleep(10);
 
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(MainApp.class
-                                        .getName()).log(Level.SEVERE, null, ex);
-                            }
-                        } else {
-                            String[] k = line.split("[+]");
-                            // System.out.println("keys to press : " + Arrays.toString(k));
-                            currentState.setText(line);
-                            try {
+                            } else if (line.startsWith("(")) {
+                                currentState.setText("מזיז עכבר אל: " + line);
+                                robotMyKey(text2point.get(line));
+                            } else {
+                                String[] k = line.split("[+]");
+                                // System.out.println("keys to press : " + Arrays.toString(k));
+                                currentState.setText(line);
                                 robotMyKey(k);
 
-                            } catch (AWTException ex) {
-                                Logger.getLogger(MainApp.class
-                                        .getName()).log(Level.SEVERE, null, ex);
                             }
+                        } catch (AWTException | InterruptedException ex) {
+                            Logger.getLogger(MainApp.class
+                                    .getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 }
@@ -609,7 +719,7 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
                 if (start == 6) {
                     keysArea.setText(null);
                 } else {
-                    start = keysArea.getLineEndOffset(line - 2) - 1;
+                    start = line == 1? 0 : keysArea.getLineEndOffset(line - 2) - 1;
                     s = "";
                 }
             } else if (s.equals(WAIT)) {
@@ -713,15 +823,15 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
     }//GEN-LAST:event_multiBtnActionPerformed
 
     private void tabPaneComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabPaneComponentAdded
-        if (tabPane.getSelectedIndex() != tabPane.getTabCount() - 1) {
-            updateState();
-        }
+        //if (tabPane.getSelectedIndex() != tabPane.getTabCount() - 1) {
+        updateState();
+        //}
     }//GEN-LAST:event_tabPaneComponentAdded
 
     private void tabPaneComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tabPaneComponentRemoved
-        if (tabPane.getSelectedIndex() != tabPane.getTabCount() - 1) {
-            updateState();
-        }
+        //if (tabPane.getSelectedIndex() != tabPane.getTabCount() - 1) {
+        updateState();
+        //}
     }//GEN-LAST:event_tabPaneComponentRemoved
 
     private int heb2eng(int heb) {
@@ -736,7 +846,7 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
         Robot robot = new Robot();
         robot.setAutoDelay(10);
         for (String key : keys) {
-            String[] s = key.trim().split("[()]");
+            String[] s = key.trim().split("[()]"); // for multi
             int key2press = text2key.get(s[0]);
             if (s.length > 1) {
                 int m = Integer.parseInt(s[1]);
@@ -754,6 +864,14 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
                 robot.keyRelease(text2key.get(key.trim()));
             }
         }
+    }
+
+    private void robotMyKey(Point mousePosition) throws AWTException {
+        Robot robot = new Robot();
+        robot.setAutoDelay(10);
+        robot.mouseMove(mousePosition.x, mousePosition.y);
+        robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
     }
 
     private void MainPanelGetRequest() {
@@ -815,10 +933,12 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
     }
 
     private final Map<String, Integer> text2key;
+    private final Map<String, Point> text2point;
     private final String WAIT = "המתנה";
     private final AtomicBoolean GO;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MainPanel;
+    private javax.swing.JPanel MousePanel;
     private javax.swing.JButton addBtn;
     private javax.swing.JLabel currentState;
     private javax.swing.JPanel helpPanel;
@@ -828,6 +948,8 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
@@ -879,6 +1001,11 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
     }
 
     private void updateState() {
+        if (tabPane.tabsCount() > 1) {
+            addBtn.setEnabled(true);
+        } else if (tabPane.tabsCount() <= 1) {
+            addBtn.setEnabled(false);
+        }
         JTextArea keysArea = tabPane.getCurrentTextArea();
         if (keysArea == null) {
             return;
@@ -887,9 +1014,13 @@ public class MainApp extends javax.swing.JFrame implements DocumentListener, Cha
         if (keysArea.getText().length() == 0) {
             runBtn.setEnabled(false);
             undoBtn.setEnabled(false);
+            resetBtn.setEnabled(false);
+            times.setEnabled(false);
         } else {
             runBtn.setEnabled(true);
             undoBtn.setEnabled(true);
+            resetBtn.setEnabled(true);
+            times.setEnabled(true);
         }
 
         int l = keysArea.getLineCount() - 1;

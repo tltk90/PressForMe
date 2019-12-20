@@ -43,6 +43,7 @@
         <Component class="javax.swing.JButton" name="addBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x5d4;&#x5d5;&#x5e1;&#x5e3;"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addBtnActionPerformed,mainPanelGetRequestAfterButtonPress"/>
@@ -81,6 +82,7 @@
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="1"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="timesKeyTyped"/>
@@ -109,6 +111,7 @@
         <Component class="javax.swing.JButton" name="resetBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="&#x5d0;&#x5e4;&#x5e1;"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetBtnActionPerformed,mainPanelGetRequestAfterButtonPress"/>
@@ -216,10 +219,11 @@
         <Component class="javax.swing.JList" name="itemList">
           <Properties>
             <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="3">
+              <StringArray count="4">
                 <StringItem index="0" value="&#x5dc;&#x5d7;&#x5e6;&#x5df;"/>
-                <StringItem index="1" value="&#x5d4;&#x5de;&#x5ea;&#x5e0;&#x5d4;"/>
-                <StringItem index="2" value="Tab"/>
+                <StringItem index="1" value="&#x5e2;&#x5db;&#x5d1;&#x5e8;"/>
+                <StringItem index="2" value="&#x5d4;&#x5de;&#x5ea;&#x5e0;&#x5d4;"/>
+                <StringItem index="3" value="Tab"/>
               </StringArray>
             </Property>
           </Properties>
@@ -279,7 +283,7 @@
                   <Border info="null"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {&quot;&#x5e4;&#x5e2;&#x5d5;&#x5dc;&#x5d4;&quot;,&quot;&#x5de;&#x5e7;&#x5e9;&quot;},&#xa;        {&quot;&#x5d4;&#x5d5;&#x5e1;&#x5e4;&#x5ea; &#x5dc;&#x5d7;&#x5d9;&#x5e6;&#x5d4;&quot;,&quot;K&quot;},&#xa;        { &quot;&#x5d4;&#x5d5;&#x5e1;&#x5e4;&#x5ea; &#x5d4;&#x5de;&#x5ea;&#x5e0;&#x5d4;&quot;,&quot;P&quot;},&#xa;        { &quot;&#x5d4;&#x5d5;&#x5e1;&#x5e4;&#x5ea;  Tab&quot;,&quot;T&quot;},&#xa;        {&quot;&#x5d1;&#x5d8;&#x5dc; &#x5e4;&#x5e2;&#x5d5;&#x5dc;&#x5d4; &#x5d0;&#x5d7;&#x5e8;&#x5d5;&#x5e0;&#x5d4;&quot;,&quot;U&quot;},&#xa;        {&quot;&#x5d4;&#x5db;&#x5e4;&#x5dc; &#x5de;&#x5e7;&#x5e9; &#x5d0;&#x5d7;&#x5e8;&#x5d5;&#x5df;&quot;,&quot;M&quot;},&#xa;        {&quot;&#x5d0;&#x5d9;&#x5e4;&#x5d5;&#x5e1;&quot;,&quot;R&quot;}&#xa;    },&#xa;    new String [] {&#xa;        null, null&#xa;    }&#xa;)" type="code"/>
+                  <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {&quot;&#x5e4;&#x5e2;&#x5d5;&#x5dc;&#x5d4;&quot;,&quot;&#x5de;&#x5e7;&#x5e9;&quot;},&#xa;        {&quot;&#x5d4;&#x5d5;&#x5e1;&#x5e4;&#x5ea; &#x5dc;&#x5d7;&#x5d9;&#x5e6;&#x5d4;&quot;,&quot;K&quot;},&#xa;        {&quot;&#x5d4;&#x5d5;&#x5e1;&#x5e4;&#x5ea; &#x5e2;&#x5db;&#x5d1;&#x5e8;&quot;,&quot;S&quot;},&#xa;        { &quot;&#x5d4;&#x5d5;&#x5e1;&#x5e4;&#x5ea; &#x5d4;&#x5de;&#x5ea;&#x5e0;&#x5d4;&quot;,&quot;P&quot;},&#xa;        { &quot;&#x5d4;&#x5d5;&#x5e1;&#x5e4;&#x5ea;  Tab&quot;,&quot;T&quot;},&#xa;        {&quot;&#x5d1;&#x5d8;&#x5dc; &#x5e4;&#x5e2;&#x5d5;&#x5dc;&#x5d4; &#x5d0;&#x5d7;&#x5e8;&#x5d5;&#x5e0;&#x5d4;&quot;,&quot;U&quot;},&#xa;        {&quot;&#x5d4;&#x5db;&#x5e4;&#x5dc; &#x5de;&#x5e7;&#x5e9; &#x5d0;&#x5d7;&#x5e8;&#x5d5;&#x5df;&quot;,&quot;M&quot;},&#xa;        {&quot;&#x5d0;&#x5d9;&#x5e4;&#x5d5;&#x5e1;&quot;,&quot;R&quot;}&#xa;    },&#xa;    new String [] {&#xa;        null, null&#xa;    }&#xa;)" type="code"/>
                 </Property>
                 <Property name="autoResizeMode" type="int" value="4"/>
                 <Property name="opaque" type="boolean" value="false"/>
@@ -296,6 +300,51 @@
             </Component>
           </SubComponents>
         </Container>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="MousePanel">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new Color(0f,0f,0f,0.1f)" type="code"/>
+        </Property>
+      </Properties>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout">
+        <Property name="horizontalGap" type="int" value="5"/>
+        <Property name="verticalGap" type="int" value="5"/>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="jLabel3">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="&#x5d4;&#x5e7;&#x5e9; &#x5e2;&#x5dc; &#x5d0;&#x5d9;&#x5d6;&#x5d5;&#x5e8; &#x5de;&#x5e1;&#x5d5;&#x5d9;&#x5dd; &#x5e2;&#x5dd; &#x5d4;&#x5e2;&#x5db;&#x5d1;&#x5e8;"/>
+            <Property name="verticalAlignment" type="int" value="1"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+              <BorderConstraints direction="First"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel4">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="&#x5d0;&#x5d5; Esc &#x5dc;&#x5d1;&#x5d9;&#x5d8;&#x5d5;&#x5dc;"/>
+            <Property name="verticalAlignment" type="int" value="1"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+              <BorderConstraints direction="Center"/>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
   </NonVisualComponents>
